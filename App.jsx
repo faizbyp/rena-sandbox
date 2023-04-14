@@ -1,15 +1,33 @@
+import { useState } from 'react';
 import { StyleSheet, Text, SafeAreaView, View, Button, TextInput } from 'react-native';
 
 export default function App() {
+  const [text, setText] = useState('');
+  const [tasks, setTasks] = useState([]);
+
+  function taskInputHandler(input) {
+    setText(input);
+  }
+
+  function addTaskHandler() {
+    setTasks((currentTasks) => [...currentTasks, text]);
+    setText('');
+  }
+
   return (
     <SafeAreaView style={styles.appContainer}>
       <Text style={styles.heading}>Todo List</Text>
       <View style={styles.inputContainer}>
-        <TextInput placeholder='input your task' style={styles.textInput} />
-        <Button title='Add' style={styles.btn} />
+        <TextInput placeholder='input your task' style={styles.textInput} onChangeText={taskInputHandler} />
+        <Button title='Add' style={styles.btn} onPress={addTaskHandler} />
       </View>
       <View style={styles.listContainer}>
         <Text>List of task</Text>
+        {tasks.map((task) => (
+          <View key={task} style={styles.taskItem}>
+            <Text style={styles.taskText}>{task}</Text>
+          </View>
+        ))}
       </View>
     </SafeAreaView>
   );
@@ -47,5 +65,15 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 5,
+  },
+  taskItem: {
+    margin: 6,
+    padding: 8,
+    paddingHorizontal: 16,
+    backgroundColor: 'purple',
+    borderRadius: 8,
+  },
+  taskText: {
+    color: 'white'
   }
 });
