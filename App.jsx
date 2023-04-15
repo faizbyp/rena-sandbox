@@ -50,8 +50,10 @@ export default function App() {
   }
 
   function addTaskHandler() {
-    setTasks((currentTasks) => [...currentTasks, { task: text, id: Math.random().toString() }]);
-    setText('');
+    if (text) {
+      setTasks((currentTasks) => [...currentTasks, { task: text, id: Math.random().toString() }]);
+      setText('');
+    }
   }
 
   return (
