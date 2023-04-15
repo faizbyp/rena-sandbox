@@ -51,13 +51,19 @@ export default function App() {
 
   function addTaskHandler() {
     setTasks((currentTasks) => [...currentTasks, { task: text, id: Math.random().toString() }]);
+    setText('');
   }
 
   return (
     <SafeAreaView style={styles.appContainer}>
       <Text style={styles.heading}>Todo List</Text>
       <View style={styles.inputContainer}>
-        <TextInput placeholder="input your task" style={styles.textInput} onChangeText={taskInputHandler} />
+        <TextInput
+          placeholder="input your task"
+          style={styles.textInput}
+          onChangeText={taskInputHandler}
+          value={text}
+        />
         <Button title="Add" style={styles.btn} onPress={addTaskHandler} />
       </View>
       <View style={styles.listContainer}>
