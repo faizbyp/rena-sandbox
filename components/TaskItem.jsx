@@ -1,5 +1,18 @@
-/* eslint-disable react/prop-types */
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  Pressable, StyleSheet, Text, View,
+} from 'react-native';
+
+function TaskItem({ task, hideTaskHandler }) {
+  return (
+    <Pressable onPress={() => hideTaskHandler(task.id)}>
+      <View style={styles.taskItem}>
+        <Text style={styles.taskText}>{task.value}</Text>
+      </View>
+    </Pressable>
+  );
+}
+
+export default TaskItem;
 
 const styles = StyleSheet.create({
   taskItem: {
@@ -13,13 +26,3 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
-
-function TaskItem({ task }) {
-  return (
-    <View style={styles.taskItem}>
-      <Text style={styles.taskText}>{task}</Text>
-    </View>
-  );
-}
-
-export default TaskItem;

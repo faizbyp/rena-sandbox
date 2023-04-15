@@ -5,6 +5,62 @@ import {
 } from 'react-native';
 import TaskItem from './components/TaskItem';
 
+export default function App() {
+  const [text, setText] = useState('');
+  const [tasks, setTasks] = useState([]);
+
+  function taskInputHandler(input) {
+    setText(input);
+  }
+
+  function addTaskHandler() {
+    if (text) {
+      setTasks((currentTasks) => [...currentTasks, { value: text, id: Math.random().toString() }]);
+      setText('');
+    }
+  }
+
+  function hideTaskHandler(id) {
+    console.log(id);
+    // setTasks((currentTasks) => {
+    //   currentTasks.filter((task) => task.id !== id);
+    // });
+  }
+
+  return (
+    <SafeAreaView style={styles.appContainer}>
+      <Text style={styles.heading}>Todo List</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="input your task"
+          style={styles.textInput}
+          onChangeText={taskInputHandler}
+          value={text}
+        />
+        <Button title="Add" style={styles.btn} onPress={addTaskHandler} />
+      </View>
+      <View style={styles.listContainer}>
+        <Text>List of task</Text>
+        <FlatList
+          data={tasks}
+          renderItem={(itemData) => (
+            <TaskItem task={itemData.item} hideTaskHandler={hideTaskHandler} />
+          )}
+          keyExtractor={(item) => item.id}
+          alwaysBounceVertical={false}
+        />
+        {/* <ScrollView alwaysBounceVertical={false}>
+          {tasks.map((task) => (
+            <View key={task} style={styles.taskItem}>
+              <Text style={styles.taskText}>{task}</Text>
+            </View>
+            ))}
+          </ScrollView> */}
+      </View>
+    </SafeAreaView>
+  );
+}
+
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
@@ -40,52 +96,3 @@ const styles = StyleSheet.create({
     flex: 5,
   },
 });
-
-export default function App() {
-  const [text, setText] = useState('');
-  const [tasks, setTasks] = useState([]);
-
-  function taskInputHandler(input) {
-    setText(input);
-  }
-
-  function addTaskHandler() {
-    if (text) {
-      setTasks((currentTasks) => [...currentTasks, { task: text, id: Math.random().toString() }]);
-      setText('');
-    }
-  }
-
-  return (
-    <SafeAreaView style={styles.appContainer}>
-      <Text style={styles.heading}>Todo List</Text>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="input your task"
-          style={styles.textInput}
-          onChangeText={taskInputHandler}
-          value={text}
-        />
-        <Button title="Add" style={styles.btn} onPress={addTaskHandler} />
-      </View>
-      <View style={styles.listContainer}>
-        <Text>List of task</Text>
-        <FlatList
-          data={tasks}
-          renderItem={(itemData) => (
-            <TaskItem task={itemData.item.task} />
-          )}
-          keyExtractor={(item) => item.id}
-          alwaysBounceVertical={false}
-        />
-        {/* <ScrollView alwaysBounceVertical={false}>
-          {tasks.map((task) => (
-            <View key={task} style={styles.taskItem}>
-              <Text style={styles.taskText}>{task}</Text>
-            </View>
-            ))}
-          </ScrollView> */}
-      </View>
-    </SafeAreaView>
-  );
-}
