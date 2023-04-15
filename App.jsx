@@ -3,11 +3,13 @@ import { useState } from 'react';
 import {
   StyleSheet, Text, SafeAreaView, View, Button, TextInput, FlatList,
 } from 'react-native';
+import TaskItem from './components/TaskItem';
 
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingTop: 24,
   },
   heading: {
     paddingVertical: 16,
@@ -37,16 +39,6 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 5,
   },
-  taskItem: {
-    margin: 6,
-    padding: 8,
-    paddingHorizontal: 16,
-    backgroundColor: 'orange',
-    borderRadius: 8,
-  },
-  taskText: {
-    color: 'white',
-  },
 });
 
 export default function App() {
@@ -73,9 +65,7 @@ export default function App() {
         <FlatList
           data={tasks}
           renderItem={(itemData) => (
-            <View style={styles.taskItem}>
-              <Text style={styles.taskText}>{itemData.item.task}</Text>
-            </View>
+            <TaskItem task={itemData.item.task} />
           )}
           keyExtractor={(item) => item.id}
           alwaysBounceVertical={false}
